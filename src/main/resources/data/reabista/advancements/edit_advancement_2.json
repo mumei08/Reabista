@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.edit_advancement_2.title"
+    },
+    "description": {
+      "translate": "advancements.edit_advancement_2.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "edit_advancement_2_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "reabista:edit_advancement_1"
+}
