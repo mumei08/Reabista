@@ -98,13 +98,14 @@ public class StatusGUI extends Screen {
         }
         if (value <= 0) return;
 
+        double sp = player.getAttribute(ModAttributes.STATUS_POINT.get()).getBaseValue();
+
+        if (value > sp) return;
+
         // サーバーに送信
         NetworkHandler.sendToServer(new StatusGuiButtonMessage(type, value));
 
         // クライアント側の即時反映
-        double sp = player.getAttribute(ModAttributes.STATUS_POINT.get()).getBaseValue();
-        if (value > sp) return;
-
         switch (type) {
             case "HP" -> {
                 updateAttribute(player, ModAttributes.HP_POINT.get(), Attributes.MAX_HEALTH, value,

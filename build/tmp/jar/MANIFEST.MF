@@ -3,7 +3,7 @@ Specification-Title: reabista
 Specification-Vendor: kaede
 Specification-Version: 1
 Implementation-Title: reabista
-Implementation-Version: 1.2.14
+Implementation-Version: 1.2.15
 Implementation-Vendor: kaede
-Implementation-Timestamp: 2025-12-09T22:45:00+0900
+Implementation-Timestamp: 2025-12-10T14:01:31+0900
 
