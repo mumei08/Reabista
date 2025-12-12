@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:shield"
+    },
+    "title": {
+      "translate": "advancements.guard_advancement.title"
+    },
+    "description": {
+      "translate": "advancements.guard_advancement.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "ability_guard_advancement_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "reabista:ability_set_advancement"
+}

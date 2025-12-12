@@ -1,0 +1,12 @@
+{
+  "attributes":
+  {
+    "two_hand":
+    {
+      "impact": 2.1,
+      "max_strikes": 50,
+      "armor_negation": 20.0
+    }
+  },
+  "type": "reabista:thaosvenom_1"
+}
