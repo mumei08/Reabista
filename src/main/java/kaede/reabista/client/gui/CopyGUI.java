@@ -3,6 +3,7 @@ package kaede.reabista.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import kaede.reabista.network.CopyPacket;
 import kaede.reabista.network.NetworkHandler;
+import kaede.reabista.registry.ModAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -46,13 +47,31 @@ public class CopyGUI extends Screen {
         int left = width / 2 - 88;
         int top = height / 2 - 83;
 
+        double ap = minecraft.player.getAttribute(ModAttributes.ABILITY_POINT.get()).getBaseValue();
+
         switch (page) {
             case 0:
-                addButton("a", "概念", left+24, top+16, 36, 20, () -> page=1);
-                addButton("b", "能力", left+24, top+52, 36, 20, () -> page=4);
+                addButton("a", "概念", left+24, top+16, 36, 20, () -> {
+                    if (ap >= 75) {
+                        page = 1;
+                    }
+                });
+                addButton("b", "能力", left+24, top+52, 36, 20, () -> {
+                    if (ap >= 25) {
+                        page = 4;
+                    }
+                });
                 addButton("c", "手に持っている物", left+24, top+88, 108, 20, () -> page=5);
-                addButton("d", "想像", left+24, top+124, 36, 20, () -> page=6);
-                addButton("e", "複製", left+78, top+124, 36, 20, () -> page=8);
+                addButton("d", "想像", left+24, top+124, 36, 20, () -> {
+                    if (ap >= 100) {
+                        page = 6;
+                    }
+                });
+                addButton("e", "複製", left+78, top+124, 36, 20, () -> {
+                    if (ap >= 50) {
+                        page = 8;
+                    }
+                });
                 break;
             case 1:
                 addButton("f", "能力値ポイント", left+51, top+34, 72, 20, () -> page=2);

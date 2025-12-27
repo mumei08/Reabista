@@ -5,6 +5,7 @@ buildscript {
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
+
     dependencies {
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
@@ -92,6 +93,13 @@ repositories {
         forRepository { maven { name = "Modrinth"; url = "https://api.modrinth.com/maven" } }
         forRepositories(fg.repository)
         filter { includeGroup "maven.modrinth" }
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
     }
 }
 

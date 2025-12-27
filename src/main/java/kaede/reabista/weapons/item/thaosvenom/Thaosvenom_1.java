@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -16,35 +14,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import yesman.epicfight.main.EpicFightMod;
+import org.jetbrains.annotations.NotNull;
 import yesman.epicfight.world.item.EpicFightItemTier;
 import yesman.epicfight.world.item.WeaponItem;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Thaosvenom_1 extends WeaponItem {
-
-    @OnlyIn(Dist.CLIENT)
-    private List<Component> tooltipExpand;
-
-    private final float attackDamage;
-    private final double attackSpeed;
+    private final float attackDamage = 10.0F;
+    private final double attackSpeed = (double)-1.5F;
 
     public Thaosvenom_1(Item.Properties properties) {
         super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, properties.durability(1666));
-
-        if (EpicFightMod.isPhysicalClient()) {
-            this.tooltipExpand = new ArrayList<>();
-            this.tooltipExpand.add(Component.literal(""));
-            this.tooltipExpand.add(Component.translatable("item.reabista.thaosvenom.tooltip"));
-        }
-
-        this.attackDamage = 10.0F;
-        this.attackSpeed = -1.5F;
     }
 
     @Override
@@ -73,13 +55,9 @@ public class Thaosvenom_1 extends WeaponItem {
         return super.getAttributeModifiers(slot, stack);
     }
 
-    /** ツールチップ拡張 */
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        if (tooltipExpand != null) {
-            tooltip.addAll(tooltipExpand);
-        }
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> components, @NotNull TooltipFlag flagIn) {
+        components.add(Component.literal(""));
+        components.add(Component.translatable("item.reabista.thaosvenom.tooltip"));
     }
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {

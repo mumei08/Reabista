@@ -17,6 +17,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.item.EpicFightItemTier;
 import yesman.epicfight.world.item.WeaponItem;
@@ -26,21 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Theusfall_2 extends WeaponItem {
-    @OnlyIn(Dist.CLIENT)
-    private List<Component> tooltipExpand;
     private float attackDamage;
     private double attackSpeed;
 
     public Theusfall_2(Properties build) {
         super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, build);
-        if (EpicFightMod.isPhysicalClient()) {
-            this.tooltipExpand = new ArrayList();
-            this.tooltipExpand.add(Component.literal(""));
-            this.tooltipExpand.add(Component.translatable("item.reabista.Theusfall.tooltip"));
-        }
-
-        this.attackDamage = 10.0F;
-        this.attackSpeed = (double)-1.5F;
     }
     @Override
     public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
@@ -65,13 +56,9 @@ public class Theusfall_2 extends WeaponItem {
         return super.getAttributeModifiers(slot, stack);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level,
-                                List<Component> tooltip, TooltipFlag flag) {
-        if (tooltipExpand != null) {
-            tooltip.addAll(tooltipExpand);
-        }
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, @NotNull TooltipFlag flagIn) {
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.translatable("item.reabista.Theusfall.tooltip"));
     }
 
     @Override

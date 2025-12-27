@@ -104,27 +104,6 @@ public class StatusGUI extends Screen {
 
         // サーバーに送信
         NetworkHandler.sendToServer(new StatusGuiButtonMessage(type, value));
-
-        // クライアント側の即時反映
-        switch (type) {
-            case "HP" -> {
-                updateAttribute(player, ModAttributes.HP_POINT.get(), Attributes.MAX_HEALTH, value,
-                        UUID.fromString("2467de73-f790-4cc1-941d-5b65afbffa10"), "HP");
-            }
-            case "ATK" -> {
-                updateAttribute(player, ModAttributes.ATK_POINT.get(), Attributes.ATTACK_DAMAGE, value,
-                        UUID.fromString("fc975381-d0ac-4684-a776-b53e80865d56"), "ATK");
-            }
-            case "DEF" -> {
-                updateAttribute(player, ModAttributes.DEF_POINT.get(), Attributes.ARMOR, value,
-                        UUID.fromString("5823e5ab-9c8f-437a-8ec5-656336fb73a9"), "DEF");
-            }
-            case "AP" -> {
-                double now = player.getAttribute(ModAttributes.ABILITY_POINT.get()).getBaseValue();
-                player.getAttribute(ModAttributes.ABILITY_POINT.get()).setBaseValue(now + value);
-                player.getAttribute(ModAttributes.STATUS_POINT.get()).setBaseValue(sp - value);
-            }
-        }
     }
 
     // 属性更新の共通化

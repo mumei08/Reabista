@@ -16,6 +16,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.world.item.EpicFightItemTier;
 import yesman.epicfight.world.item.WeaponItem;
@@ -26,23 +27,11 @@ import java.util.List;
 
 public class Thaosvenom_2 extends WeaponItem {
 
-    @OnlyIn(Dist.CLIENT)
-    private List<Component> tooltipExpand;
-
-    private final float attackDamage;
-    private final double attackSpeed;
+    private final float attackDamage = 10.0F;
+    private final double attackSpeed = -1.5F;
 
     public Thaosvenom_2(Item.Properties build) {
         super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, build);
-
-        if (EpicFightMod.isPhysicalClient()) {
-            this.tooltipExpand = new ArrayList<>();
-            this.tooltipExpand.add(Component.literal(""));
-            this.tooltipExpand.add(Component.translatable("item.reabista.thaosvenom.tooltip"));
-        }
-
-        this.attackDamage = 10.0F;
-        this.attackSpeed = -1.5F;
     }
 
     @Override
@@ -71,13 +60,9 @@ public class Thaosvenom_2 extends WeaponItem {
         return super.getAttributeModifiers(slot, stack);
     }
 
-    /** ツールチップ拡張 */
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        if (tooltipExpand != null) {
-            tooltip.addAll(tooltipExpand);
-        }
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> components, @NotNull TooltipFlag flagIn) {
+        components.add(Component.literal(""));
+        components.add(Component.translatable("item.reabista.thaosvenom.tooltip"));
     }
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {

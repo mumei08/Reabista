@@ -8,8 +8,14 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import reascer.wom.gameasset.WOMAnimations;
+import reascer.wom.gameasset.animations.weapons.AnimsAgony;
+import reascer.wom.gameasset.animations.weapons.AnimsMoonless;
+import reascer.wom.gameasset.animations.weapons.AnimsSatsujin;
 import reascer.wom.gameasset.WOMSkills;
+import reascer.wom.main.WeaponsOfMinecraft;
 import reascer.wom.skill.WOMSkillDataKeys;
+import reascer.wom.world.capabilities.item.WOMWeaponCategories;
+import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
@@ -31,44 +37,49 @@ public class ReabistaWeaponCapabilityPresets {
     public static final Function<Item, CapabilityItem.Builder> THEUSFALL_1 = (item) -> {
         CapabilityItem.Builder builder = WeaponCapability.builder()
                 .category(CapabilityItem.WeaponCategories.SPEAR)
-                .styleProvider((entitypatch) -> entitypatch instanceof PlayerPatch && ((PlayerPatch)entitypatch)
-                        .getSkill(SkillSlots.WEAPON_INNATE)
-                        .getRemainDuration() > 0 ? CapabilityItem.Styles.OCHS : CapabilityItem.Styles.TWO_HAND)
+                .styleProvider((entitypatch) ->
+                        entitypatch instanceof PlayerPatch && ((PlayerPatch)entitypatch)
+                                .getSkill(SkillSlots.WEAPON_INNATE)
+                                .getRemainDuration() > 0 ? CapabilityItem.Styles.OCHS :
+                                CapabilityItem.Styles.TWO_HAND)
                 .collider(ReabistaWeaponColliders.THEUSFALL)
-                .hitSound((SoundEvent) EpicFightSounds.BLADE_HIT.get())
+                .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
                 .swingSound((SoundEvent)EpicFightSounds.WHOOSH.get())
                 .passiveSkill(WOMSkills.DEMON_MARK_PASSIVE)
                 .canBePlacedOffhand(false)
-                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, new StaticAnimation[]{
-                        WOMAnimations.AGONY_AUTO_1,
-                        WOMAnimations.AGONY_AUTO_2,
-                        WOMAnimations.AGONY_AUTO_3,
-                        WOMAnimations.AGONY_AUTO_4,
-                        WOMAnimations.AGONY_CLAWSTRIKE,
-                        WOMAnimations.AGONY_RIPPING_FANGS})
-                .newStyleCombo(CapabilityItem.Styles.MOUNT, new StaticAnimation[]{
-                        Animations.SPEAR_MOUNT_ATTACK})
-                .newStyleCombo(CapabilityItem.Styles.OCHS, new StaticAnimation[]{
-                        WOMAnimations.ANTITHEUS_ASCENDED_AUTO_1,
-                        WOMAnimations.ANTITHEUS_ASCENDED_AUTO_2,
-                        WOMAnimations.ANTITHEUS_ASCENDED_AUTO_3,
-                        WOMAnimations.ANTITHEUS_ASCENDED_BLINK,
-                        WOMAnimations.ANTITHEUS_ASCENDED_DEATHFALL})
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        new AnimationManager.AnimationAccessor[]{
+                                AnimsAgony.AGONY_AUTO_1,
+                                AnimsAgony.AGONY_AUTO_2,
+                                AnimsAgony.AGONY_AUTO_3,
+                                AnimsAgony.AGONY_AUTO_4,
+                                AnimsAgony.AGONY_CLAWSTRIKE,
+                                AnimsAgony.AGONY_RIPPING_FANGS})
+                .newStyleCombo(CapabilityItem.Styles.OCHS,
+                        new AnimationManager.AnimationAccessor[]{
+                                WOMAnimations.ANTITHEUS_ASCENDED_AUTO_1,
+                                WOMAnimations.ANTITHEUS_ASCENDED_AUTO_2,
+                                WOMAnimations.ANTITHEUS_ASCENDED_AUTO_3,
+                                WOMAnimations.ANTITHEUS_ASCENDED_BLINK,
+                                WOMAnimations.ANTITHEUS_ASCENDED_DEATHFALL})
+                .newStyleCombo(CapabilityItem.Styles.MOUNT,
+                        new AnimationManager.AnimationAccessor[]{
+                                Animations.SPEAR_MOUNT_ATTACK})
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WOMSkills.DEMONIC_ASCENSION)
                 .innateSkill(CapabilityItem.Styles.OCHS, (itemstack) -> WOMSkills.DEMONIC_ASCENSION)
                 .comboCancel((style) -> false)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.IDLE, WOMAnimations.AGONY_IDLE)
+                        LivingMotions.IDLE, AnimsAgony.AGONY_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.WALK, WOMAnimations.AGONY_WALK)
+                        LivingMotions.WALK, AnimsAgony.AGONY_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.CHASE, WOMAnimations.AGONY_RUN)
+                        LivingMotions.CHASE, AnimsAgony.AGONY_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.RUN, WOMAnimations.AGONY_RUN)
+                        LivingMotions.RUN, AnimsAgony.AGONY_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
                         LivingMotions.SWIM, Animations.BIPED_HOLD_SPEAR)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.BLOCK, WOMAnimations.AGONY_GUARD)
+                        LivingMotions.BLOCK, AnimsAgony.AGONY_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
                         LivingMotions.IDLE, WOMAnimations.ANTITHEUS_ASCENDED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
@@ -78,25 +89,30 @@ public class ReabistaWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
                         LivingMotions.RUN, WOMAnimations.ANTITHEUS_ASCENDED_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
-                        LivingMotions.SWIM, Animations.BIPED_SWIM);
+                        LivingMotions.SWIM, Animations.BIPED_SWIM)
+                .livingMotionModifier(CapabilityItem.Styles.OCHS,
+                        LivingMotions.BLOCK, AnimsAgony.AGONY_GUARD);
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> THEUSFALL_2 = (item) -> {
         CapabilityItem.Builder builder = WeaponCapability.builder()
                 .category(CapabilityItem.WeaponCategories.SPEAR)
-                .styleProvider((playerpatch) -> CapabilityItem.Styles.TWO_HAND)
+                .styleProvider((playerpatch) ->
+                        CapabilityItem.Styles.TWO_HAND)
                 .collider(ReabistaWeaponColliders.THEUSFALL)
                 .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
                 .canBePlacedOffhand(false)
-                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, new StaticAnimation[]{
-                        WOMAnimations.ANTITHEUS_AUTO_1,
-                        WOMAnimations.ANTITHEUS_AUTO_2,
-                        WOMAnimations.ANTITHEUS_AUTO_3,
-                        WOMAnimations.ANTITHEUS_AUTO_4,
-                        WOMAnimations.ANTITHEUS_AGRESSION,
-                        WOMAnimations.ANTITHEUS_GUILLOTINE})
-                .newStyleCombo(CapabilityItem.Styles.MOUNT, new StaticAnimation[]{
-                        Animations.SPEAR_MOUNT_ATTACK})
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        new AnimationManager.AnimationAccessor[]{
+                                WOMAnimations.ANTITHEUS_AUTO_1,
+                                WOMAnimations.ANTITHEUS_AUTO_2,
+                                WOMAnimations.ANTITHEUS_AUTO_3,
+                                WOMAnimations.ANTITHEUS_AUTO_4,
+                                WOMAnimations.ANTITHEUS_AGRESSION,
+                                WOMAnimations.ANTITHEUS_GUILLOTINE})
+                .newStyleCombo(CapabilityItem.Styles.MOUNT,
+                        new AnimationManager.AnimationAccessor[]{
+                                Animations.SPEAR_MOUNT_ATTACK})
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WOMSkills.AGONY_PLUNGE)
                 .comboCancel((style) -> false)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
@@ -110,9 +126,10 @@ public class ReabistaWeaponCapabilityPresets {
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
                         LivingMotions.SWIM, Animations.BIPED_HOLD_SPEAR)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.BLOCK, WOMAnimations.AGONY_GUARD);
+                        LivingMotions.BLOCK, AnimsAgony.AGONY_GUARD);
         return builder;
     };
+
     public static final Function<Item, CapabilityItem.Builder> THAOSVENOM_1 = (item) -> {
         CapabilityItem.Builder builder = WeaponCapability.builder()
                 .category(CapabilityItem.WeaponCategories.UCHIGATANA)
@@ -132,61 +149,63 @@ public class ReabistaWeaponCapabilityPresets {
                 .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
                 .collider(ReabistaWeaponColliders.THAOSVENOM)
                 .canBePlacedOffhand(false)
-                .newStyleCombo(CapabilityItem.Styles.SHEATH, new StaticAnimation[]{
-                        WOMAnimations.KATANA_SHEATHED_AUTO_1,
-                        WOMAnimations.KATANA_SHEATHED_AUTO_2,
-                        WOMAnimations.KATANA_SHEATHED_AUTO_3,
-                        WOMAnimations.KATANA_SHEATHED_DASH,
-                        WOMAnimations.KATANA_TSUKUYOMI})
-                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, new StaticAnimation[]{
-                        WOMAnimations.KATANA_AUTO_1,
-                        WOMAnimations.KATANA_AUTO_2,
-                        WOMAnimations.KATANA_AUTO_3,
-                        WOMAnimations.KATANA_DASH,
-                        WOMAnimations.KATANA_TSUKUYOMI})
-                .newStyleCombo(CapabilityItem.Styles.MOUNT, new StaticAnimation[]{
+                .newStyleCombo(CapabilityItem.Styles.SHEATH,
+                        new AnimationManager.AnimationAccessor[]{
+                                AnimsSatsujin.SATSUJIN_SHEATHED_1,
+                                AnimsSatsujin.SATSUJIN_SHEATHED_2,
+                                AnimsSatsujin.SATSUJIN_SHEATHED_3,
+                                AnimsSatsujin.SATSUJIN_SHEATHED_DASH,
+                                AnimsSatsujin.SATSUJIN_TSUKUYOMI})
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
+                        new AnimationManager.AnimationAccessor[]{
+                                AnimsSatsujin.SATSUJIN_AUTO_1,
+                                AnimsSatsujin.SATSUJIN_AUTO_2,
+                                AnimsSatsujin.SATSUJIN_AUTO_3,
+                                AnimsSatsujin.SATSUJIN_HARUSAKI,
+                                AnimsSatsujin.SATSUJIN_TSUKUYOMI})
+                .newStyleCombo(CapabilityItem.Styles.MOUNT, new AnimationManager.AnimationAccessor[]{
                         Animations.SWORD_MOUNT_ATTACK})
                 .innateSkill(CapabilityItem.Styles.SHEATH, (itemstack) -> WOMSkills.SAKURA_STATE)
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WOMSkills.SAKURA_STATE)
                 .comboCancel((style) -> false)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.IDLE, WOMAnimations.KATANA_IDLE)
+                        LivingMotions.IDLE, AnimsSatsujin.SATSUJIN_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.KNEEL, WOMAnimations.KATANA_IDLE)
+                        LivingMotions.KNEEL, AnimsSatsujin.SATSUJIN_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.WALK, WOMAnimations.KATANA_WALK)
+                        LivingMotions.WALK, AnimsSatsujin.SATSUJIN_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.CHASE, WOMAnimations.KATANA_RUN)
+                        LivingMotions.CHASE, AnimsSatsujin.SATSUJIN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.RUN, WOMAnimations.KATANA_RUN)
+                        LivingMotions.RUN, AnimsSatsujin.SATSUJIN_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.SNEAK, WOMAnimations.KATANA_IDLE)
+                        LivingMotions.SNEAK, AnimsSatsujin.SATSUJIN_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.SWIM, WOMAnimations.KATANA_IDLE)
+                        LivingMotions.SWIM, AnimsSatsujin.SATSUJIN_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.FLOAT, WOMAnimations.KATANA_IDLE)
+                        LivingMotions.FLOAT, AnimsSatsujin.SATSUJIN_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.FALL, WOMAnimations.KATANA_IDLE)
+                        LivingMotions.FALL, AnimsSatsujin.SATSUJIN_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.IDLE, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.IDLE, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.KNEEL, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.KNEEL, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.WALK, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.WALK, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.CHASE, WOMAnimations.KATANA_SHEATHED_RUN)
+                        LivingMotions.CHASE, AnimsSatsujin.SATSUJIN_SHEATHED_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.RUN, WOMAnimations.KATANA_SHEATHED_RUN)
+                        LivingMotions.RUN, AnimsSatsujin.SATSUJIN_SHEATHED_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.SNEAK, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.SNEAK, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.SWIM, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.SWIM, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.FLOAT, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.FLOAT, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.SHEATH,
-                        LivingMotions.FALL, WOMAnimations.KATANA_SHEATHED_IDLE)
+                        LivingMotions.FALL, AnimsSatsujin.SATSUJIN_SHEATHED_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.BLOCK, WOMAnimations.KATANA_GUARD);
+                        LivingMotions.BLOCK, AnimsSatsujin.SATSUJIN_GUARD);
         return builder;
     };
     public static final Function<Item, CapabilityItem.Builder> THAOSVENOM_2 = (item) -> {
@@ -208,47 +227,47 @@ public class ReabistaWeaponCapabilityPresets {
                 .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
                 .comboCancel((style) -> false)
                 .canBePlacedOffhand(false)
-                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, new StaticAnimation[]{
-                        WOMAnimations.MOONLESS_AUTO_1,
-                        WOMAnimations.MOONLESS_AUTO_2,
-                        WOMAnimations.MOONLESS_AUTO_3,
-                        WOMAnimations.MOONLESS_REVERSED_BYPASS,
-                        WOMAnimations.MOONLESS_CRESCENT})
+                .newStyleCombo(CapabilityItem.Styles.TWO_HAND, new AnimationManager.AnimationAccessor[]{
+                        AnimsMoonless.MOONLESS_AUTO_1,
+                        AnimsMoonless.MOONLESS_AUTO_2,
+                        AnimsMoonless.MOONLESS_AUTO_3,
+                        AnimsMoonless.MOONLESS_REVERSED_BYPASS,
+                        AnimsMoonless.MOONLESS_CRESCENT})
                 .innateSkill(CapabilityItem.Styles.TWO_HAND, (itemstack) -> WOMSkills.AGONY_PLUNGE)
-                .newStyleCombo(CapabilityItem.Styles.OCHS, new StaticAnimation[]{
-                        WOMAnimations.MOONLESS_AUTO_1_VERSO,
-                        WOMAnimations.MOONLESS_AUTO_2_VERSO,
-                        WOMAnimations.MOONLESS_AUTO_3_VERSO,
-                        WOMAnimations.MOONLESS_BYPASS,
-                        WOMAnimations.MOONLESS_FULLMOON})
+                .newStyleCombo(CapabilityItem.Styles.OCHS, new AnimationManager.AnimationAccessor[]{
+                        AnimsMoonless.MOONLESS_AUTO_1_VERSO,
+                        AnimsMoonless.MOONLESS_AUTO_2_VERSO,
+                        AnimsMoonless.MOONLESS_AUTO_3_VERSO,
+                        AnimsMoonless.MOONLESS_BYPASS,
+                        AnimsMoonless.MOONLESS_FULLMOON})
                 .innateSkill(CapabilityItem.Styles.OCHS, (itemstack) -> WOMSkills.AGONY_PLUNGE)
-                .newStyleCombo(CapabilityItem.Styles.MOUNT, new StaticAnimation[]{
+                .newStyleCombo(CapabilityItem.Styles.MOUNT, new AnimationManager.AnimationAccessor[]{
                         Animations.SWORD_MOUNT_ATTACK})
                 .passiveSkill(WOMSkills.LUNAR_ECHO_PASSIVE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.IDLE, WOMAnimations.MOONLESS_IDLE)
+                        LivingMotions.IDLE, AnimsMoonless.MOONLESS_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.WALK, WOMAnimations.MOONLESS_WALK)
+                        LivingMotions.WALK, AnimsMoonless.MOONLESS_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.CHASE, WOMAnimations.MOONLESS_RUN)
+                        LivingMotions.CHASE, AnimsMoonless.MOONLESS_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.RUN, WOMAnimations.MOONLESS_RUN)
+                        LivingMotions.RUN, AnimsMoonless.MOONLESS_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
                         LivingMotions.SWIM, Animations.BIPED_HOLD_SPEAR)
                 .livingMotionModifier(CapabilityItem.Styles.TWO_HAND,
-                        LivingMotions.BLOCK, WOMAnimations.MOONLESS_GUARD)
+                        LivingMotions.BLOCK, AnimsMoonless.MOONLESS_GUARD)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
-                        LivingMotions.IDLE, WOMAnimations.MOONLESS_IDLE)
+                        LivingMotions.IDLE, AnimsMoonless.MOONLESS_IDLE)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
-                        LivingMotions.WALK, WOMAnimations.MOONLESS_WALK)
+                        LivingMotions.WALK, AnimsMoonless.MOONLESS_WALK)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
-                        LivingMotions.CHASE, WOMAnimations.MOONLESS_RUN)
+                        LivingMotions.CHASE, AnimsMoonless.MOONLESS_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
-                        LivingMotions.RUN, WOMAnimations.MOONLESS_RUN)
+                        LivingMotions.RUN, AnimsMoonless.MOONLESS_RUN)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
                         LivingMotions.SWIM, Animations.BIPED_HOLD_SPEAR)
                 .livingMotionModifier(CapabilityItem.Styles.OCHS,
-                        LivingMotions.BLOCK, WOMAnimations.MOONLESS_GUARD);
+                        LivingMotions.BLOCK, AnimsMoonless.MOONLESS_GUARD);
         return builder;
     };
 

@@ -1,5 +1,6 @@
 package kaede.reabista.weapons.render;
 
+import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import kaede.reabista.weapons.item.ModItemWom;
 import net.minecraft.client.Minecraft;
@@ -8,69 +9,81 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import yesman.epicfight.api.utils.math.MathUtils;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.item.RenderItemBase;
-import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderThaosvenom_1 extends RenderItemBase {
 
+    /** 表示専用：鞘 */
     private final ItemStack sheathStack;
 
-    public RenderThaosvenom_1() {
-        this.sheathStack = new ItemStack(ModItemWom.THAOSVENOM_SHEATH_1.get());
+    public RenderThaosvenom_1(JsonElement jsonElement) {
+        super(jsonElement);
+        this.sheathStack = new ItemStack((ItemLike) ModItemWom.THAOSVENOM_SHEATH_1.get());
     }
 
     @Override
     public void renderItemInHand(
-            ItemStack stack,
-            LivingEntityPatch<?> entitypatch,
+            ItemStack weaponStack,
+            LivingEntityPatch<?> entityPatch,
             InteractionHand hand,
-            HumanoidArmature armature,
             OpenMatrix4f[] poses,
             MultiBufferSource buffer,
             PoseStack poseStack,
             int packedLight,
-            float partialTicks) {
+            float partialTicks
+    ) {
 
-        // 右手（武器）
-        OpenMatrix4f mat = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-        mat.mulFront(poses[armature.toolR.getId()]);
+        /* ===== メインハンド：武器本体 ===== */
+
+        OpenMatrix4f mainHandMatrix =
+                this.getCorrectionMatrix(entityPatch, InteractionHand.MAIN_HAND, poses);
+
         poseStack.pushPose();
-        this.mulPoseStack(poseStack, mat);
+        MathUtils.mulStack(poseStack, mainHandMatrix);
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(
-                stack,
-                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                packedLight,
-                OverlayTexture.NO_OVERLAY,
-                poseStack,
-                buffer,
-                (Level) null,
-                0
-        );
+        Minecraft.getInstance()
+                .getItemRenderer()
+                .renderStatic(
+                        weaponStack,
+                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
+                        packedLight,
+                        OverlayTexture.NO_OVERLAY,
+                        poseStack,
+                        buffer,
+                        (Level) null,
+                        0
+                );
+
         poseStack.popPose();
 
-        // 左手（鞘）
-        mat = new OpenMatrix4f(this.mainhandcorrectionMatrix);
-        mat.mulFront(poses[armature.toolL.getId()]);
-        poseStack.pushPose();
-        this.mulPoseStack(poseStack, mat);
+        /* ===== オフハンド位置：鞘 ===== */
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(
-                sheathStack,
-                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                packedLight,
-                OverlayTexture.NO_OVERLAY,
-                poseStack,
-                buffer,
-                (Level) null,
-                0
-        );
+        OpenMatrix4f offHandMatrix =
+                this.getCorrectionMatrix(entityPatch, InteractionHand.OFF_HAND, poses);
+
+        poseStack.pushPose();
+        MathUtils.mulStack(poseStack, offHandMatrix);
+
+        Minecraft.getInstance()
+                .getItemRenderer()
+                .renderStatic(
+                        this.sheathStack,
+                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
+                        packedLight,
+                        OverlayTexture.NO_OVERLAY,
+                        poseStack,
+                        buffer,
+                        (Level) null,
+                        0
+                );
 
         poseStack.popPose();
     }
