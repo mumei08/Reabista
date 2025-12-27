@@ -38,9 +38,6 @@ public class StatusGuiButtonMessage {
             ServerPlayer player = ctx.get().getSender();
             if (player == null) return;
 
-            // 実際の能力値更新
-            AttributeUtils.applyStatusPoint(player, msg.type, msg.value);
-
             switch (msg.type) {
                 case "HP" -> {
                     double now = player.getAttribute(ModAttributes.HP_POINT.get()).getBaseValue();
