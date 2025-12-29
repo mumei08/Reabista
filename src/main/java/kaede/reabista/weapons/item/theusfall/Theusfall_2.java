@@ -11,54 +11,45 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import yesman.epicfight.main.EpicFightMod;
+import reascer.wom.world.item.WOMItems;
 import yesman.epicfight.world.item.EpicFightItemTier;
 import yesman.epicfight.world.item.WeaponItem;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Theusfall_2 extends WeaponItem {
     private float attackDamage;
     private double attackSpeed;
 
-    public Theusfall_2(Properties build) {
-        super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, build);
-    }
-    @Override
-    public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
-        return repair.getItem() == Items.NETHERITE_INGOT;
+    public Theusfall_2(Item.Properties build) {
+        super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, build.defaultDurability(6666));
     }
 
-    @Override
+    public boolean isValidRepairItem(@NotNull ItemStack toRepair, ItemStack repair) {
+        return repair.getItem() == WOMItems.DEMON_SEAL.get();
+    }
+
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == EquipmentSlot.MAINHAND) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(Attributes.ATTACK_DAMAGE,
-                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID,
-                            "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
-
-            builder.put(Attributes.ATTACK_SPEED,
-                    new AttributeModifier(BASE_ATTACK_SPEED_UUID,
-                            "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.attackDamage, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", this.attackSpeed, AttributeModifier.Operation.ADDITION));
             return builder.build();
+        } else {
+            return super.getAttributeModifiers(slot, stack);
         }
-
-        return super.getAttributeModifiers(slot, stack);
     }
 
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        tooltip.add(Component.literal(""));
-        tooltip.add(Component.translatable("item.reabista.Theusfall.tooltip"));
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, List<Component> components, @NotNull TooltipFlag flagIn) {
+        components.add(Component.literal(""));
+        components.add(Component.translatable("item.reabista.Theusfall.tooltip"));
     }
 
     @Override

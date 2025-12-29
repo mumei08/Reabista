@@ -3,7 +3,7 @@ loaderVersion = "[47,)"
 license = "MIT"
 [[mods]]
 modId = "reabista"
-version = "1.2.17"
+version = "1.2.18"
 displayName = "Re:Abista"
 authors = "kaede"
 description = ''''''

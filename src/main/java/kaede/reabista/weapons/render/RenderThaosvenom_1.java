@@ -21,7 +21,6 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 @OnlyIn(Dist.CLIENT)
 public class RenderThaosvenom_1 extends RenderItemBase {
 
-    /** 表示専用：鞘 */
     private final ItemStack sheathStack;
 
     public RenderThaosvenom_1(JsonElement jsonElement) {
@@ -29,62 +28,16 @@ public class RenderThaosvenom_1 extends RenderItemBase {
         this.sheathStack = new ItemStack((ItemLike) ModItemWom.THAOSVENOM_SHEATH_1.get());
     }
 
-    @Override
-    public void renderItemInHand(
-            ItemStack weaponStack,
-            LivingEntityPatch<?> entityPatch,
-            InteractionHand hand,
-            OpenMatrix4f[] poses,
-            MultiBufferSource buffer,
-            PoseStack poseStack,
-            int packedLight,
-            float partialTicks
-    ) {
-
-        /* ===== メインハンド：武器本体 ===== */
-
-        OpenMatrix4f mainHandMatrix =
-                this.getCorrectionMatrix(entityPatch, InteractionHand.MAIN_HAND, poses);
-
+    public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
+        OpenMatrix4f modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.MAIN_HAND, poses);
         poseStack.pushPose();
-        MathUtils.mulStack(poseStack, mainHandMatrix);
-
-        Minecraft.getInstance()
-                .getItemRenderer()
-                .renderStatic(
-                        weaponStack,
-                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                        packedLight,
-                        OverlayTexture.NO_OVERLAY,
-                        poseStack,
-                        buffer,
-                        (Level) null,
-                        0
-                );
-
+        MathUtils.mulStack(poseStack, modelMatrix);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level)null, 0);
         poseStack.popPose();
-
-        /* ===== オフハンド位置：鞘 ===== */
-
-        OpenMatrix4f offHandMatrix =
-                this.getCorrectionMatrix(entityPatch, InteractionHand.OFF_HAND, poses);
-
+        modelMatrix = this.getCorrectionMatrix(entitypatch, InteractionHand.OFF_HAND, poses);
         poseStack.pushPose();
-        MathUtils.mulStack(poseStack, offHandMatrix);
-
-        Minecraft.getInstance()
-                .getItemRenderer()
-                .renderStatic(
-                        this.sheathStack,
-                        ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
-                        packedLight,
-                        OverlayTexture.NO_OVERLAY,
-                        poseStack,
-                        buffer,
-                        (Level) null,
-                        0
-                );
-
+        MathUtils.mulStack(poseStack, modelMatrix);
+        Minecraft.getInstance().getItemRenderer().renderStatic(this.sheathStack, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level)null, 0);
         poseStack.popPose();
     }
 }

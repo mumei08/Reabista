@@ -1,5 +1,6 @@
 package kaede.reabista.weapons.render;
 
+
 import com.google.gson.JsonElement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import kaede.reabista.weapons.item.ModItemWom;
@@ -26,111 +27,48 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 @OnlyIn(Dist.CLIENT)
 public class RenderThaosvenom_2 extends RenderItemBase {
 
-    /** 第二モデル（柄・補助武装など） */
-    private final ItemStack secondModel;
+    private final ItemStack Secondmodel;
 
     public RenderThaosvenom_2(JsonElement jsonElement) {
         super(jsonElement);
-        this.secondModel = new ItemStack((ItemLike) ModItemWom.THAOSVENOM_HANDLE_2.get());
+        this.Secondmodel = new ItemStack((ItemLike) ModItemWom.THAOSVENOM_HANDLE_2.get());
     }
 
-    @Override
-    public void renderItemInHand(
-            ItemStack mainStack,
-            LivingEntityPatch<?> entityPatch,
-            InteractionHand hand,
-            OpenMatrix4f[] poses,
-            MultiBufferSource buffer,
-            PoseStack poseStack,
-            int packedLight,
-            float partialTicks
-    ) {
+    public void renderItemInHand(ItemStack stack, LivingEntityPatch<?> entitypatch, InteractionHand hand, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
+        Armature var10 = entitypatch.getArmature();
+        if (var10 instanceof ToolHolderArmature armature) {
+            OpenMatrix4f modelMatrix = new OpenMatrix4f((OpenMatrix4f)this.mainhandCorrectionTransforms.get("Tool_R"));
+            boolean isInMainhand = hand == InteractionHand.MAIN_HAND;
+            Joint holdingHand = isInMainhand ? armature.rightToolJoint() : armature.leftToolJoint();
+            OpenMatrix4f jointTransform = poses[holdingHand.getId()];
+            modelMatrix.mulFront(jointTransform);
+            poseStack.pushPose();
+            MathUtils.mulStack(poseStack, modelMatrix);
+            ItemDisplayContext transformType = isInMainhand ? ItemDisplayContext.THIRD_PERSON_RIGHT_HAND : ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
+            Minecraft.getInstance().getItemRenderer().renderStatic(stack, transformType, 255, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level)null, 0);
+            poseStack.popPose();
+            Joint holdingHand2 = null;
+            Armature var17 = entitypatch.getArmature();
+            if (var17 instanceof HumanoidArmature armature2) {
+                holdingHand2 = isInMainhand ? armature2.handR : armature2.handL;
+            }
 
-        Armature armatureBase = entityPatch.getArmature();
+            var17 = entitypatch.getArmature();
+            if (var17 instanceof ArmedToolHolderArmature armature2) {
+                holdingHand2 = isInMainhand ? armature2.rightHandJoint() : armature2.leftHandJoint();
+            }
 
-        // ToolHolderArmature を持つエンティティのみ処理
-        if (!(armatureBase instanceof ToolHolderArmature armature)) {
-            return;
+            if (holdingHand2 != null) {
+                OpenMatrix4f jointTransform2 = poses[holdingHand2.getId()];
+                modelMatrix.load((OpenMatrix4f)this.mainhandCorrectionTransforms.get("Tool_R"));
+                modelMatrix.mulFront(jointTransform2);
+                modelMatrix.translate(-0.001F, -0.02F, -0.08F);
+                poseStack.pushPose();
+                MathUtils.mulStack(poseStack, modelMatrix);
+                Minecraft.getInstance().getItemRenderer().renderStatic(this.Secondmodel, transformType, 255, OverlayTexture.NO_OVERLAY, poseStack, buffer, (Level)null, 0);
+                poseStack.popPose();
+            }
         }
 
-        boolean isMainHand = hand == InteractionHand.MAIN_HAND;
-
-        /* ===== メインモデル描画 ===== */
-
-        Joint toolJoint =
-                isMainHand ? armature.rightToolJoint() : armature.leftToolJoint();
-
-        OpenMatrix4f modelMatrix =
-                new OpenMatrix4f(this.mainhandCorrectionTransforms.get("Tool_R"));
-
-        OpenMatrix4f toolJointPose = poses[toolJoint.getId()];
-        modelMatrix.mulFront(toolJointPose);
-
-        poseStack.pushPose();
-        MathUtils.mulStack(poseStack, modelMatrix);
-
-        ItemDisplayContext displayContext =
-                isMainHand
-                        ? ItemDisplayContext.THIRD_PERSON_RIGHT_HAND
-                        : ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
-
-        Minecraft.getInstance()
-                .getItemRenderer()
-                .renderStatic(
-                        mainStack,
-                        displayContext,
-                        255,
-                        OverlayTexture.NO_OVERLAY,
-                        poseStack,
-                        buffer,
-                        (Level) null,
-                        0
-                );
-
-        poseStack.popPose();
-
-        /* ===== 第二モデル用：手のJoint取得 ===== */
-
-        Joint handJoint = null;
-
-        if (armatureBase instanceof HumanoidArmature humanoid) {
-            handJoint = isMainHand ? humanoid.handR : humanoid.handL;
-        }
-
-        if (armatureBase instanceof ArmedToolHolderArmature armed) {
-            handJoint = isMainHand ? armed.rightHandJoint() : armed.leftHandJoint();
-        }
-
-        if (handJoint == null) {
-            return;
-        }
-
-        /* ===== 第二モデル描画 ===== */
-
-        OpenMatrix4f handJointPose = poses[handJoint.getId()];
-
-        modelMatrix.load(this.mainhandCorrectionTransforms.get("Tool_R"));
-        modelMatrix.mulFront(handJointPose);
-
-        // 微調整オフセット
-        modelMatrix.translate(-0.001F, -0.02F, -0.08F);
-
-        poseStack.pushPose();
-        MathUtils.mulStack(poseStack, modelMatrix);
-
-        Minecraft.getInstance()
-                .getItemRenderer()
-                .renderStatic(
-                        this.secondModel,
-                        displayContext,
-                        255,
-                        OverlayTexture.NO_OVERLAY,
-                        poseStack,
-                        buffer,
-                        (Level) null,
-                        0
-                );
-
-        poseStack.popPose();
     }
 }
