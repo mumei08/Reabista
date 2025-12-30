@@ -23,8 +23,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class Theusfall_1 extends WeaponItem {
-    private float attackDamage = 10;
-    private double attackSpeed = -1.5F;
+    private final float attackDamage = 10;
+    private final double attackSpeed = -1.5F;
 
     public Theusfall_1(Properties build) {
         super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, build);

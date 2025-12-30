@@ -13,7 +13,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +24,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class Theusfall_2 extends WeaponItem {
-    private float attackDamage;
-    private double attackSpeed;
+    private final float attackDamage = 10.0F;
+    private final double attackSpeed = (double)-1.5F;
 
     public Theusfall_2(Item.Properties build) {
         super(EpicFightItemTier.UCHIGATANA, 0, -1.5F, build.defaultDurability(6666));
@@ -34,6 +33,11 @@ public class Theusfall_2 extends WeaponItem {
 
     public boolean isValidRepairItem(@NotNull ItemStack toRepair, ItemStack repair) {
         return repair.getItem() == WOMItems.DEMON_SEAL.get();
+    }
+
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, List<Component> components, @NotNull TooltipFlag flagIn) {
+        components.add(Component.literal(""));
+        components.add(Component.translatable("item.reabista.Theusfall.tooltip"));
     }
 
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
@@ -45,11 +49,6 @@ public class Theusfall_2 extends WeaponItem {
         } else {
             return super.getAttributeModifiers(slot, stack);
         }
-    }
-
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, List<Component> components, @NotNull TooltipFlag flagIn) {
-        components.add(Component.literal(""));
-        components.add(Component.translatable("item.reabista.Theusfall.tooltip"));
     }
 
     @Override

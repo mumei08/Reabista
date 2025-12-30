@@ -4,23 +4,39 @@ package kaede.reabista.weapons.capability.item;
 import kaede.reabista.weapons.gameasset.ReabistaWeaponColliders;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import reascer.wom.animation.attacks.BasicMultipleAttackAnimation;
+import reascer.wom.gameasset.ReuseableEvents;
 import reascer.wom.gameasset.WOMAnimations;
 import reascer.wom.gameasset.animations.weapons.AnimsAgony;
 import reascer.wom.gameasset.animations.weapons.AnimsMoonless;
 import reascer.wom.gameasset.animations.weapons.AnimsSatsujin;
 import reascer.wom.gameasset.WOMSkills;
+import reascer.wom.gameasset.colliders.WOMWeaponColliders;
 import reascer.wom.main.WeaponsOfMinecraft;
+import reascer.wom.particle.WOMParticles;
 import reascer.wom.skill.WOMSkillDataKeys;
 import reascer.wom.world.capabilities.item.WOMWeaponCategories;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.LivingMotions;
+import yesman.epicfight.api.animation.property.AnimationEvent;
+import yesman.epicfight.api.animation.property.AnimationProperty;
+import yesman.epicfight.api.animation.types.AttackAnimation;
+import yesman.epicfight.api.animation.types.EntityState;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.collider.Collider;
 import yesman.epicfight.api.forgeevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.api.utils.math.ValueModifier;
+import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.EpicFightSounds;
+import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.skill.SkillDataKey;
 import yesman.epicfight.skill.SkillSlots;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
@@ -94,6 +110,7 @@ public class ReabistaWeaponCapabilityPresets {
                         LivingMotions.BLOCK, AnimsAgony.AGONY_GUARD);
         return builder;
     };
+
     public static final Function<Item, CapabilityItem.Builder> THEUSFALL_2 = (item) -> {
         CapabilityItem.Builder builder = WeaponCapability.builder()
                 .category(CapabilityItem.WeaponCategories.SPEAR)
@@ -102,6 +119,7 @@ public class ReabistaWeaponCapabilityPresets {
                 .collider(ReabistaWeaponColliders.THEUSFALL)
                 .hitSound((SoundEvent)EpicFightSounds.BLADE_HIT.get())
                 .canBePlacedOffhand(false)
+                .passiveSkill(WOMSkills.DEMON_MARK_PASSIVE)
                 .newStyleCombo(CapabilityItem.Styles.TWO_HAND,
                         new AnimationManager.AnimationAccessor[]{
                                 WOMAnimations.ANTITHEUS_AUTO_1,
