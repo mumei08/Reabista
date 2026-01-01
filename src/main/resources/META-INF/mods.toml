@@ -1,9 +1,9 @@
 modLoader = "javafml"
 loaderVersion = "[47,)"
-license = "MIT"
+license = "GNU GENERAL PUBLIC LICENSE"
 [[mods]]
 modId = "reabista"
-version = "1.2.19"
+version = "1.2.20"
 displayName = "Re:Abista"
 authors = "kaede"
 description = ''''''
