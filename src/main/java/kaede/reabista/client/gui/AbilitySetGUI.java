@@ -1,7 +1,7 @@
 package kaede.reabista.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import kaede.reabista.network.AbilityChangePacket;
+import kaede.reabista.network.ability.gui.AbilityChangePacket;
 import kaede.reabista.network.NetworkHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -40,13 +40,11 @@ public class AbilitySetGUI extends Screen {
         //       ボタン登録一覧
         // ===============================
 
-        addAbilityButton(1, x + 25, y + 20,  46, 20, "編集");
-        addAbilityButton(2, x + 25, y + 55,  46, 20, "複製");
-        addAbilityButton(3, x + 25, y + 90,  46, 20, "飛行");
-        addAbilityButton(4, x + 25, y + 125, 67, 20, "テレポート");
-        addAbilityButton(5, x + 88, y + 20,  67, 20, "大喰い");
-        addAbilityButton(6, x + 88, y + 55,  51, 20, "硬化");
-
+        addAbilityButton(0, x + 25, y + 20,  46, 20, "無能力");
+        addAbilityButton(3, x + 25, y + 55,  46, 20, "飛行");
+        addAbilityButton(4, x + 25, y + 90,  67, 20, "テレポート");
+        addAbilityButton(5, x + 25, y + 125, 67, 20, "大喰い");
+        addAbilityButton(6, x + 88, y + 20,  51, 20, "硬化");
     }
 
     private void addAbilityButton(

@@ -16,4 +16,17 @@ public class CapabilityEvents {
             event.addCapability(new ResourceLocation("reabista", "ability"), new AbilityProvider());
         }
     }
+
+    @SubscribeEvent
+    public static void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+        event.getOriginal().reviveCaps();
+
+        var oldData = AbilityDataAPI.get(event.getOriginal());
+        var newData = AbilityDataAPI.get(event.getEntity());
+
+        newData.setGluttonyEnabled(oldData.isGluttonyEnabled());
+        newData.setFlyEnabled(oldData.isFlyEnabled());
+
+        event.getOriginal().invalidateCaps();
+    }
 }

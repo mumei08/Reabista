@@ -25,11 +25,13 @@ public class AbilityProvider implements ICapabilityProvider, INBTSerializable<Co
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("GluttonyEnabled", inst.isGluttonyEnabled());
+        tag.putBoolean("FlyEnabled", inst.isFlyEnabled());
         return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         inst.setGluttonyEnabled(nbt.getBoolean("GluttonyEnabled"));
+        inst.setFlyEnabled(nbt.getBoolean("FlyEnabled"));
     }
 }

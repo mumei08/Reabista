@@ -2,7 +2,7 @@ package kaede.reabista.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import kaede.reabista.network.NetworkHandler;
-import kaede.reabista.network.StatusGuiButtonMessage;
+import kaede.reabista.network.status.StatusGuiButtonMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import kaede.reabista.registry.ModAttributes;
 

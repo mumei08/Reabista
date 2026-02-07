@@ -2,7 +2,6 @@ package kaede.reabista.item.Crystal;
 
 import kaede.reabista.registry.ModAttributes;
 import kaede.reabista.registry.ModItems;
-import kaede.reabista.util.AttributeUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -72,7 +71,6 @@ public class GluttonyCrystal extends Item {
             var att = player.getAttribute(ModAttributes.GLUTTONY_ENTITY.get());
             if (att != null) {
                 att.setBaseValue(att.getBaseValue() + absorbedCount);
-                AttributeUtils.updateAttributeModifier(player, "GENTITY");
             }
         }
 

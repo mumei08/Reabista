@@ -85,9 +85,9 @@ public class AbilityTeleportCommand {
 
         if (attr == 4){
             return false;
-        } else if (attr == 1 & AP >= 100) {
+        } else if (attr == 1 & AP >= 1300) {
             return false;
-        }else if (attr == 2 & AP >= 25) {
+        }else if (attr == 2 & AP >= 200) {
             return false;
         }else{
             return true;

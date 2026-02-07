@@ -1,7 +1,14 @@
 package kaede.reabista.network;
 
 import kaede.reabista.Reabista;
+import kaede.reabista.network.ability.*;
+import kaede.reabista.network.ability.gui.AbilityChangePacket;
+import kaede.reabista.network.ability.gui.OpenAbilityGuiPacket;
+import kaede.reabista.network.ability.item.AbilityWeaponsClutch;
+import kaede.reabista.network.ability.item.GetItemPacket;
+import kaede.reabista.network.status.StatusGuiButtonMessage;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -23,14 +30,6 @@ public class NetworkHandler {
 
         int id = 0;
 
-        // サーバー側でも安全なパケットだけ登録
-        CHANNEL.registerMessage(id++,
-                SetAbilityPacket.class,
-                SetAbilityPacket::encode,
-                SetAbilityPacket::decode,
-                SetAbilityPacket::handle
-        );
-
         CHANNEL.registerMessage(id++,
                 StatusGuiButtonMessage.class,
                 StatusGuiButtonMessage::encode,
@@ -49,6 +48,12 @@ public class NetworkHandler {
                 .encoder(EditCommandPacket::encode)
                 .decoder(EditCommandPacket::decode)
                 .consumerMainThread(EditCommandPacket::handle)
+                .add();
+
+        CHANNEL.messageBuilder(EditAbility.class, id++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(EditAbility::encode)
+                .decoder(EditAbility::decode)
+                .consumerMainThread(EditAbility::handle)
                 .add();
 
         CHANNEL.registerMessage(id++,
@@ -81,6 +86,11 @@ public class NetworkHandler {
                 AbilityWeaponsClutch::decode,
                 AbilityWeaponsClutch::handle
         );
+        CHANNEL.messageBuilder(SyncStoryModePacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SyncStoryModePacket::encode)
+                .decoder(SyncStoryModePacket::decode)
+                .consumerMainThread(SyncStoryModePacket::handle)
+                .add();
     }
 
     // クライアント専用パケット登録（GUI 開く系）
@@ -106,5 +116,11 @@ public class NetworkHandler {
     // 型安全な送信メソッド
     public static void sendToServer(Object msg) {
         if (CHANNEL != null) CHANNEL.sendToServer(msg);
+    }
+
+    public static void sendToClient(Object msg, ServerPlayer player) {
+        if (CHANNEL != null && player != null) {
+            CHANNEL.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+        }
     }
 }

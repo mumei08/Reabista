@@ -1,5 +1,6 @@
 package kaede.reabista.item;
 
+import kaede.reabista.client.gui.AbilitySetGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
 
 public class AbilitySetItem extends Item {
 
@@ -33,6 +33,6 @@ public class AbilitySetItem extends Item {
     @OnlyIn(Dist.CLIENT)
     private void openGui() {
         Minecraft mc = Minecraft.getInstance();
-        mc.setScreen(new kaede.reabista.client.gui.AbilitySetGUI(mc.player));
+        mc.setScreen(new AbilitySetGUI(mc.player));
     }
 }

@@ -1,6 +1,6 @@
 package kaede.reabista.events;
 
-import kaede.reabista.ReabistaConfig;
+import kaede.reabista.config.ReabistaConfig;
 import kaede.reabista.weapons.item.thaosvenom.Thaosvenom_1;
 import kaede.reabista.weapons.item.thaosvenom.Thaosvenom_2;
 import kaede.reabista.weapons.item.theusfall.Theusfall_1;
@@ -25,7 +25,7 @@ public class AttackEventHandler {
         // メインハンドの武器を取得
         ItemStack weapon = attacker.getMainHandItem();
 
-        // Theusfallじゃなければ無視
+        // Theusfall or Thaosvenomじゃなければ無視
         if (!(weapon.getItem() instanceof Theusfall_1)){
             if (!(weapon.getItem() instanceof Theusfall_2)) {
                 if (!(weapon.getItem() instanceof Thaosvenom_1)){

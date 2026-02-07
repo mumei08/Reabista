@@ -1,9 +1,10 @@
 package kaede.reabista.client;
 
 import kaede.reabista.client.gui.*;
-import kaede.reabista.network.AbilityWeaponsClutch;
-import kaede.reabista.network.FlyClutch;
-import kaede.reabista.network.GetItemPacket;
+import kaede.reabista.item.Crystal.*;
+import kaede.reabista.network.ability.item.AbilityWeaponsClutch;
+import kaede.reabista.network.ability.FlyClutch;
+import kaede.reabista.network.ability.item.GetItemPacket;
 import kaede.reabista.network.NetworkHandler;
 import kaede.reabista.registry.ModAttributes;
 import kaede.reabista.weapons.item.thaosvenom.Thaosvenom_1;
@@ -30,28 +31,50 @@ public class ClientEvents {
         // 能力GUI
         if (OPEN_ABILITY_KEY.consumeClick()) {
             int ability = (int) mc.player.getAttributeValue(ModAttributes.ABILITY.get());
-            switch (ability) {
-                case 1 -> {
+            if (mc.player.getMainHandItem().getItem() instanceof EditCrystal){
+                mc.setScreen(new EditGUI(mc.player));
+            }else if (mc.player.getMainHandItem().getItem() instanceof CopyCrystal){
+                mc.setScreen(new CopyGUI(mc.player));
+            }else if (mc.player.getMainHandItem().getItem() instanceof FlyCrystal){
+                NetworkHandler.sendToServer(new FlyClutch());
+            }else if (mc.player.getMainHandItem().getItem() instanceof GluttonyCrystal){
+                mc.setScreen(new GluttonyGUI(mc.player));
+            }else if (mc.player.getMainHandItem().getItem() instanceof GuardCrystal){
+                mc.setScreen(new GuardGUI(mc.player));
+            }else if (mc.player.getOffhandItem().getItem() instanceof EditCrystal){
+                mc.setScreen(new EditGUI(mc.player));
+            }else if (mc.player.getOffhandItem().getItem() instanceof CopyCrystal){
+                mc.setScreen(new CopyGUI(mc.player));
+            }else if (mc.player.getOffhandItem().getItem() instanceof FlyCrystal){
+                NetworkHandler.sendToServer(new FlyClutch());
+            }else if (mc.player.getOffhandItem().getItem() instanceof GluttonyCrystal){
+                mc.setScreen(new GluttonyGUI(mc.player));
+            }else if (mc.player.getOffhandItem().getItem() instanceof GuardCrystal){
+                mc.setScreen(new GuardGUI(mc.player));
+            }else{
+                if (ability == 1){
                     if (mc.player.getMainHandItem().getItem() instanceof Theusfall_1){
                         NetworkHandler.sendToServer(new AbilityWeaponsClutch(1, 1));
-                    }else if (mc.player.getMainHandItem().getItem() instanceof Theusfall_2){
+                    }else if (mc.player.getMainHandItem().getItem() instanceof Theusfall_2) {
                         NetworkHandler.sendToServer(new AbilityWeaponsClutch(1, 2));
-                    }else {
+                    }else{
                         mc.setScreen(new EditGUI(mc.player));
                     }
-                }
-                case 2 -> {
-                    if (mc.player.getMainHandItem().getItem() instanceof Thaosvenom_1){
+                }else if (ability == 2) {
+                    if (mc.player.getMainHandItem().getItem() instanceof Thaosvenom_1) {
                         NetworkHandler.sendToServer(new AbilityWeaponsClutch(2, 1));
-                    }else if (mc.player.getMainHandItem().getItem() instanceof Thaosvenom_2){
+                    } else if (mc.player.getMainHandItem().getItem() instanceof Thaosvenom_2) {
                         NetworkHandler.sendToServer(new AbilityWeaponsClutch(2, 2));
-                    }else {
+                    } else {
                         mc.setScreen(new CopyGUI(mc.player));
                     }
+                }else {
+                    switch (ability) {
+                        case 3 -> NetworkHandler.sendToServer(new FlyClutch());
+                        case 5 -> mc.setScreen(new GluttonyGUI(mc.player));
+                        case 6 -> mc.setScreen(new GuardGUI(mc.player));
+                    }
                 }
-                case 3 -> NetworkHandler.sendToServer(new FlyClutch(!mc.player.getAbilities().mayfly));
-                case 5 -> mc.setScreen(new GluttonyGUI(mc.player));
-                case 6 -> mc.setScreen(new GuardGUI(mc.player));
             }
         }
 

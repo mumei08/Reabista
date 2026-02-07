@@ -19,5 +19,5 @@
       "trigger": "minecraft:impossible"
     }
   },
-  "parent": "reabista:ability_set_advancement"
+  "parent": "reabista:root2"
 }

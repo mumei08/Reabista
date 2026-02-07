@@ -3,7 +3,7 @@ loaderVersion = "[47,)"
 license = "GNU GENERAL PUBLIC LICENSE"
 [[mods]]
 modId = "reabista"
-version = "1.2.20"
+version = "2.0.0"
 displayName = "Re:Abista"
 authors = "kaede"
 description = ''''''

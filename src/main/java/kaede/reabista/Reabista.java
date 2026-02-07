@@ -1,5 +1,6 @@
 package kaede.reabista;
 
+import kaede.reabista.config.ReabistaConfig;
 import kaede.reabista.network.NetworkHandler;
 import kaede.reabista.registry.*;
 import kaede.reabista.weapons.item.ModItemWom;
@@ -28,6 +29,7 @@ public class Reabista {
         }
         ModCreativeTabs.CREATIVE_TABS.register(modBus);
         ModEntities.register(modBus);
+        ModGamerules.register();
         modBus.addListener(ModEventHandlers::onAttributeCreate);
         ModLoadingContext.get().registerConfig(
                 ModConfig.Type.COMMON,

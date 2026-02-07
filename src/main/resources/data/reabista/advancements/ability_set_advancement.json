@@ -1,6 +1,5 @@
 {
   "display": {
-    "background": "minecraft:textures/block/stone.png",
     "icon": {
       "item": "reabista:abilitysetitem"
     },
@@ -17,14 +16,14 @@
   },
   "criteria": {
     "ability_set_advancement_0": {
-      "trigger": "minecraft:tick"
+      "trigger": "minecraft:impossible"
     }
   },
   "rewards": {
     "experience": 0,
-    "function": "reabista:ability_set_advancement_function",
     "loot": [
       "reabista:blocks/ability_set_advancement_root"
     ]
-  }
+  },
+  "parent": "reabista:root"
 }

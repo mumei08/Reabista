@@ -44,6 +44,9 @@ public class ModItems {
     public static final RegistryObject<Item> ABILITY_SET_ITEM =
             ITEMS.register("abilitysetitem", AbilitySetItem::new);
 
+    public static final RegistryObject<Item> CREATIVE_ABILITY_SET_ITEM =
+            ITEMS.register("creativeabilitysetitem", CreativeAbilitySetItem::new);
+
     public static final RegistryObject<Item> SORASUMMON =
             ITEMS.register("sorasummon", SorasummonItem::new);
 

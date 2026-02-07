@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.HashMap;
 
 import kaede.reabista.network.NetworkHandler;
-import kaede.reabista.network.GuardAbilityPacket;
+import kaede.reabista.network.ability.GuardAbilityPacket;
 
 public class GuardGUI extends Screen {
     private final Player entity;
