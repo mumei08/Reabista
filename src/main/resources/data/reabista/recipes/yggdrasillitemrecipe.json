@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "bcd",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "reabista:sekai"
+    },
+    "b": {
+      "item": "reabista:edit_eye"
+    },
+    "c": {
+      "item": "minecraft:command_block"
+    },
+    "d": {
+      "item": "reabista:copy_eye"
+    }
+  },
+  "result": {
+    "item": "reabista:yggdrasilkey",
+    "count": 1
+  }
+}

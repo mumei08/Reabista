@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "reabista:nanikore"
+    },
+    "b": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "item": "reabista:edit_eye",
+    "count": 1
+  }
+}

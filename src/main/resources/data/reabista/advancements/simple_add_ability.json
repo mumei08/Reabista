@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "reabista:abilitysetitem"
+    },
+    "title": {
+      "translate": "advancements.simple_add_ability.title"
+    },
+    "description": {
+      "translate": "advancements.simple_add_ability.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "simple_add_ability_0": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "parent": "reabista:root"
+}

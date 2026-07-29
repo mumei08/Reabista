@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aba",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "reabista:nanikore"
+    },
+    "b": {
+      "item": "minecraft:golden_carrot"
+    }
+  },
+  "result": {
+    "item": "reabista:copy_eye",
+    "count": 1
+  }
+}

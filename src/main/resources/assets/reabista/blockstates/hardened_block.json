@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "reabista:block/hardened_block" }
+  }
+}

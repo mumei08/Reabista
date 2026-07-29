@@ -1,0 +1,27 @@
+{
+  "display": {
+    "background": "minecraft:textures/block/stone.png",
+    "icon": {
+      "item": "reabista:abilitysetitem"
+    },
+    "title": {
+      "translate": "advancements.root_advancement.title"
+    },
+    "description": {
+      "translate": "advancements.root_advancement.descr"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "root_advancement_0": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "experience": 0,
+    "function": "reabista:ability_set_advancement_function"
+  }
+}

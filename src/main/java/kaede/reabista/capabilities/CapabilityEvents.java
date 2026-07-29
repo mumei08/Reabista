@@ -1,0 +1,32 @@
+package kaede.reabista.capabilities;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+public class CapabilityEvents {
+
+    @SubscribeEvent
+    public static void attachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player) {
+            event.addCapability(new ResourceLocation("reabista", "ability"), new AbilityProvider());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+        event.getOriginal().reviveCaps();
+
+        var oldData = AbilityDataAPI.get(event.getOriginal());
+        var newData = AbilityDataAPI.get(event.getEntity());
+
+        newData.setGluttonyEnabled(oldData.isGluttonyEnabled());
+        newData.setFlyEnabled(oldData.isFlyEnabled());
+
+        event.getOriginal().invalidateCaps();
+    }
+}
